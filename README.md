@@ -1,4 +1,5 @@
 # Tube Archivist Metrics
-Monitor Tube Archivist in Prometheus
+Provide Tube Archivist metrics in Prometheus/OpenMetrics format
 
 This is WIP
+
