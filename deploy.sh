@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function validate {
 
     if [[ $1 ]]; then
@@ -21,10 +23,10 @@ function validate {
 
 }
 
-exit 0
-
 if [[ $1 == "validate" ]]; then
     validate
 else
     echo "valid options are: validate"
 fi
+
+exit 0
