@@ -32,7 +32,7 @@ POLL_INTERVAL: The interval in seconds for the data to be scraped from ElasticSe
 ### Running via Docker Compose (supported)
 This metrics service is designed to be ran inside of docker.
 
-To view the main compose file for TubeArchivist, please see the main repository here: [TA Repo](https://github.com/bbilly1/tubearchivist)
+To view the main compose file for TubeArchivist, please see the main repository here: [TA Repo](https://github.com/tubearchivist/tubearchivist)
 
 To add the metrics service in, place this into your compose file and update the environment variables as required.
 
