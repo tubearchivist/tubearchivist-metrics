@@ -63,6 +63,15 @@ Environment variables can be passed in via normal syntax for your OS.
 
 ---
 
+### Prometheus example config
+```
+      - job_name: 'tubearchivist-metrics'
+        metrics_path: /
+        static_configs:
+          - targets:
+              - <server>:9934
+```
+---
 ## How are metrics gathered?
 
 Typically, a prometheus server will poll the HTTP endpoint of the metrics service to obtain its metrics.
