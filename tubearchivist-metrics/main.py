@@ -1,5 +1,5 @@
 import time
-from prometheus_client import start_http_server, Gauge, Enum
+from prometheus_client import start_http_server, Gauge
 
 from environment import AppConfig
 from getmetrics import GetMetrics
@@ -21,11 +21,11 @@ class AppMetrics:
         self.poll_interval = poll_interval
 
         # Metrics to expose
-        self.channel_count = Gauge("channel_count", "Number of channels")
-        self.playlist_count = Gauge("playlist_count", "Number of playlists")
-        self.download_count = Gauge("download_count", "Number of downloads")
-        self.download_queue = Gauge("download_queue", "Number of pending downloads")
-        self.subtitle_count = Gauge("subtitle_count", "Number of subtitles downloaded for videos")
+        self.channel_count = Gauge("yta_channel_count", "Number of channels")
+        self.playlist_count = Gauge("yta_playlist_count", "Number of playlists")
+        self.download_count = Gauge("yta_download_count", "Number of downloads")
+        self.download_queue = Gauge("yta_download_queue", "Number of pending downloads")
+        self.subtitle_count = Gauge("yta_subtitle_count", "Number of subtitles downloaded for videos")
     # fmt: on
 
     def run_metrics_loop(self):
@@ -40,6 +40,7 @@ class AppMetrics:
         """
         Retrieves the metrics from the database and updates the metrics.
         """
+        print("Obtaining Metrics from Elasticsearch")
         self.channel_count.set(GetMetrics.count(index_name="ta_channel"))
         self.playlist_count.set(GetMetrics.count(index_name="ta_playlist"))
         self.download_queue.set(GetMetrics.count(index_name="ta_download"))
