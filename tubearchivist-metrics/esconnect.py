@@ -56,4 +56,5 @@ class ElasticWrapper:
             print("Sleeping for 10 seconds...")
             sleep(10)
         else:
+            es.close()
             return response
