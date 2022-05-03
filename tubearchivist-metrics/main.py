@@ -9,9 +9,9 @@ config = AppConfig().config
 # Print configuration on console when starting the application
 
 print("Configuration is currently set to:")
-print("Elasticsearch URL: " + config["es_url"])
-print("Listen Port: " + config["listen_port"])
-print("Poll Interval (seconds): " + config["poll_interval"])
+print(f'Elasticsearch URL: {config["es_url"]}')
+print(f'Listen Port: {config["listen_port"]}')
+print(f'Polling interval (seconds): {config["poll_interval"]}')
 
 
 class AppMetrics:
