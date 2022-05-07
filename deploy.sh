@@ -23,10 +23,32 @@ function validate {
 
 }
 
+function sync_test {
+    
+    host="tubearchivist.local"
+    # make base folder
+    ssh "$host" "mkdir -p docker"
+
+    # copy project files to build image
+    rsync -a --progress --delete-after \
+        --exclude ".git" \
+        --exclude ".gitignore" \
+        --exclude "**/cache" \
+        --exclude "**/__pycache__/" \
+        . -e ssh "$host":tubearchivist-metrics
+
+    ssh "$host" "docker buildx build -t bbilly1/tubearchivist-metrics:latest tubearchivist-metrics --load"
+
+    ssh "$host" 'docker compose -f docker/docker-compose.yml up -d'
+
+}
+
 if [[ $1 == "validate" ]]; then
-    validate
+    validate "$2"
+elif [[ $1 == "test" ]]; then
+    sync_test
 else
-    echo "valid options are: validate"
+    echo "valid options are: validate | test"
 fi
 
 exit 0
