@@ -43,12 +43,44 @@ function sync_test {
 
 }
 
+function sync_docker {
+
+    # check things
+    if [[ $(git branch --show-current) != 'master' ]]; then
+        echo 'you are not on master, dummy!'
+        return
+    fi
+
+    if [[ $(systemctl is-active docker) != 'active' ]]; then
+        echo "starting docker"
+        sudo systemctl start docker
+    fi
+
+    # checkout latest tag
+    git fetch --tags github master
+    VERSION=$(git tag | head -n 1)
+    git checkout "$VERSION"
+
+    echo "build and push tubearchivist-metrics:$VERSION ?"
+    read -rn 1
+
+    # start build
+    sudo docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        -t bbilly1/tubearchivist-metrics \
+        -t bbilly1/tubearchivist-metrics:"$VERSION" --push .
+
+}
+
+
 if [[ $1 == "validate" ]]; then
     validate "$2"
 elif [[ $1 == "test" ]]; then
     sync_test
+elif [[ $1 == "docker" ]]; then
+    sync_docker
 else
-    echo "valid options are: validate | test"
+    echo "valid options are: validate | test | docker"
 fi
 
 exit 0
