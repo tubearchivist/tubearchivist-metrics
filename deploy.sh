@@ -70,6 +70,8 @@ function sync_docker {
         -t bbilly1/tubearchivist-metrics \
         -t bbilly1/tubearchivist-metrics:"$VERSION" --push .
 
+    git checkout master
+
 }
 
 
