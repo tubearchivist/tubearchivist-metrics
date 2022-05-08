@@ -38,7 +38,7 @@ To add the metrics service in, place this into your compose file and update the 
 
 ```
   archivist-metrics:
-    image: tubearchivist-metrics:latest
+    image: bbilly1/tubearchivist-metrics:latest
     container_name: archivist-metrics
     restart: always
     environment:
