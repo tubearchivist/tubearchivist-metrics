@@ -9,11 +9,27 @@ This is an optional service as part of the Tube Archivist stack.
 
 ## Metrics reported
 ```
-channel_count = Number of channels
-playlist_count = Number of playlists
-download_count = Number of downloads
-download_queue = Number of pending downloads
-subtitle_count = Number of subtitles downloaded for videos
+yta_ignore_downloads, Total number of ignored videos
+yta_pending_downloads, Total number of pending downloads
+ta_pending_videos, Total number of pending video downloads
+yta_pending_shorts, Total number of pending shorts downloads
+yta_pending_streams, Total number of pending stream downloads
+
+yta_videos_total, Total number of videos
+        
+yta_channel_total, Total number of channels
+yta_channel_active, Total number of active channels
+yta_channel_inactive, Total number of inactive channels
+yta_channel_subscribed, Total number of subscribed channels
+yta_channel_unsubscribed, Total number of unsuubscribed channels
+        
+        
+        
+yta_playlists_total, Total number of playlists
+yta_playlists_active, Total number of active playlists
+yta_playlists_inactive, "Total number of inactive playlists
+yta_playlists_subscribed, Total number of subscribed playlists
+yta_playlists_unsubscribed, Total number of unsubscribed playlists
 
 ```
 
@@ -22,9 +38,8 @@ subtitle_count = Number of subtitles downloaded for videos
 ---
 ### Environment variables
 ```
-ES_URL: The URL to your ElasticSearch server. Defaults to http://archivist-es:9200
-ES_USER: The username for authentication to ElasticSearch. Defaults to elastic
-ES_PASSWORD: The password for authentication to ElasticSearch. No default is set.
+TA_URL: The URL to your TubeArchivist Server
+TA_KEY: Your TubeArchivist API key
 LISTEN_PORT: The listen port for the metrics server to run on. Defaults to 9934
 POLL_INTERVAL: The interval in seconds for the data to be scraped from ElasticSearch. Defaults to 60
 ```
@@ -42,9 +57,8 @@ To add the metrics service in, place this into your compose file and update the 
     container_name: archivist-metrics
     restart: always
     environment:
-      - "ES_USER=elastic"
-      - "ES_PASSWORD=verysecret"
-      - "ES_URL=http://archivist-es:9200"
+      - "TA_URL=http://tubearchivist.local"
+      - "TA_KEY="your ta api key"
       - "LISTEN_PORT=9934"
       - "POLL_INTERVAL=60"
     ports:
@@ -78,8 +92,8 @@ Typically, a prometheus server will poll the HTTP endpoint of the metrics servic
 
 In most scenarios, a service will then retrieve the data for the metric, and then respond to the prometheus http call. However this can be quite harsh on databases and applications, especially when prometheus is polling every 15 seconds.
 
-To prevent performance issues and unncessecary load on ElasticSearch. We prefetch the metric information from ES every 60 seconds (default). The metric is then updated on the HTTP endpoint after we have retrieved the data and cached for prometheus to scrape.
+To prevent performance issues and unncessecary load on ElasticSearch. We prefetch the metric information from the API every 60 seconds (default). The metric is then updated on the HTTP endpoint after we have retrieved the data and cached for prometheus to scrape.
 
-This means prometheus can scrape the endpoint every second if it likes, but no database calls to ES will be made until the polling interval is reached.
+This means prometheus can scrape the endpoint every second if it likes, but no database calls to the API will be made until the polling interval is reached.
 
 If you require more granular polling, you can update the `POLLING_INTERVAL` environment variable
