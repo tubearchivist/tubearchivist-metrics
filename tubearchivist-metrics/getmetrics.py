@@ -1,11 +1,11 @@
-from esconnect import ElasticWrapper
+from tascraper import APIWrapper
 
 
 class GetMetrics:
     @staticmethod
-    def count(index_name):
+    def count(index_name, keyvalue):
 
-        """Get count of documents from ES"""
-        result = ElasticWrapper.get_count(index_name)
-        print(f"Metric for {index_name}: {result}")
-        return int(result)
+        """Get count of documents from API"""
+        result = APIWrapper.get_count(index_name, keyvalue)
+        #print(f"Metric for {index_name}: {keyvalue}: {result}")
+        return result
