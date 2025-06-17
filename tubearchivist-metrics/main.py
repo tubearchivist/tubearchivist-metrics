@@ -21,19 +21,17 @@ class AppMetrics:
         self.poll_interval = poll_interval
 
         # Metrics to expose
-        #self.channel_count = Gauge("yta_channel_count", "Number of channels")
-        #self.playlist_count = Gauge("yta_playlist_count", "Number of playlists")
-        #self.download_count = Gauge("yta_download_count", "Number of downloads")
-        #self.download_queue = Gauge("yta_download_queue", "Number of pending downloads")
-        #self.subtitle_count = Gauge("yta_subtitle_count", "Number of subtitles downloaded for videos")
+ 
         self.ignore_downloads = Gauge("yta_ignore_downloads", "Total number of ignored videos")
         self.pending_downloads = Gauge("yta_pending_downloads", "Total number of pending downloads")
         self.pending_videos = Gauge("yta_pending_videos", "Total number of pending video downloads")
         self.pending_shorts = Gauge("yta_pending_shorts", "Total number of pending shorts downloads")
         self.pending_streams = Gauge("yta_pending_streams", "Total number of pending stream downloads")
+        #These 3 are sub, sub bits of the tree. I've done all this in a really hacky way that only supports a depth of 1, 
+        #ideally needs a full rewrite
         #self.watch_total = Gauge("yta_watch_total", "Total number of Videos")
         #self.watch_unwatched = Gauge("yta_watch_unwatched", "Total number of unwatched videos")
-        #self.watch_watched = Gauge("yta_watch_watched", "Total number of watched viedos")
+        #self.watch_watched = Gauge("yta_watch_watched", "Total number of watched videos")
         self.videos_total = Gauge("yta_videos_total", "Total number of videos")
         
 
@@ -54,7 +52,7 @@ class AppMetrics:
 
     def run_metrics_loop(self):
         """
-        Runs a loop that will update the metrics every second.
+        Runs a loop that will update the metrics every poll_interval.
         """
         while True:
             self.retrieve_metrics()
@@ -64,7 +62,7 @@ class AppMetrics:
         """
         Retrieves the metrics from the database and updates the metrics.
         """
-        #print("Obtaining Metrics from Elasticsearch")
+        
         print("Obtaining Metrics from API")
         
         self.pending_downloads.set(GetMetrics.count(index_name="/api/stats/download/", keyvalue="pending"))
@@ -72,6 +70,7 @@ class AppMetrics:
         self.pending_videos.set(GetMetrics.count(index_name="/api/stats/download/", keyvalue="pending_videos"))
         self.pending_shorts.set(GetMetrics.count(index_name="/api/stats/download/", keyvalue="shorts"))
         self.pending_streams.set(GetMetrics.count(index_name="/api/stats/download/", keyvalue="streams"))
+        #Matching 3 for the above commented lines
         #self.watch_total.set(GetMetrics.count(index_name="/api/stats/watch/"))
         #self.watch_unwatched.set(GetMetrics.count(index_name="/api/stats/watch/"))
         #self.watch_watched.set(GetMetrics.count(index_name="/api/stats/watch/"))
@@ -91,12 +90,6 @@ class AppMetrics:
         self.playlists_unsubscribed.set(GetMetrics.count(index_name="/api/stats/playlist/", keyvalue="subscribed_false"))
         
         
-        
-        #self.channel_count.set(GetMetrics.count(index_name="ta_channel"))
-        #self.playlist_count.set(GetMetrics.count(index_name="ta_playlist"))
-        #self.download_queue.set(GetMetrics.count(index_name="ta_download"))
-        #self.download_count.set(GetMetrics.count(index_name="ta_video"))
-        #self.subtitle_count.set(GetMetrics.count(index_name="ta_subtitle"))
 
 
 

@@ -11,7 +11,7 @@ This is an optional service as part of the Tube Archivist stack.
 ```
 yta_ignore_downloads, Total number of ignored videos
 yta_pending_downloads, Total number of pending downloads
-ta_pending_videos, Total number of pending video downloads
+yta_pending_videos, Total number of pending video downloads
 yta_pending_shorts, Total number of pending shorts downloads
 yta_pending_streams, Total number of pending stream downloads
 
