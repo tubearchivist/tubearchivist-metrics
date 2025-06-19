@@ -1,4 +1,3 @@
-#FROM python:3.10.4-slim-bullseye
 FROM python:3.11.8-slim-bookworm
 WORKDIR /app
 COPY tubearchivist-metrics/requirements.txt .
