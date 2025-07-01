@@ -52,13 +52,14 @@ To view the main compose file for TubeArchivist, please see the main repository 
 To add the metrics service in, place this into your compose file and update the environment variables as required.
 
 ```
+services:
   archivist-metrics:
-    image: bbilly1/tubearchivist-metrics:latest
+    image: bbilly1/tubearchivist-metrics
     container_name: archivist-metrics
     restart: always
     environment:
       - "TA_URL=http://tubearchivist.local"
-      - "TA_KEY="your ta api key"
+      - "TA_KEY=yourtaapikey"
       - "LISTEN_PORT=9934"
       - "POLL_INTERVAL=60"
     ports:
