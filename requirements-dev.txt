@@ -1,0 +1,3 @@
+-r tubearchivist-metrics/requirements.txt
+pre-commit==4.2.0
+requirementscheck==0.0.6
